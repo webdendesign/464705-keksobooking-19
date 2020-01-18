@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Денис Габитов](https://up.htmlacademy.ru/javascript/19/user/464705).
-* Наставник: `Неизвестно`.
+* Наставник: [Сам себя учу].
 
 ---
 

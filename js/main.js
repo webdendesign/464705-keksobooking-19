@@ -33,3 +33,13 @@
 //   mapPins.appendChild(userElement);
 
 // }
+
+// var typeHouse = function (type) {
+//     if (type === 'palace') {
+//         return 'Дворец';
+//     } else if (type === 'flat') {
+//         return 'Квартира';
+//     } else if (type === 'bungalo') {
+//         return 'Бунгало';
+//     } else { return 'Дом' };
+// };

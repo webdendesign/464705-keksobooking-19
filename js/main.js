@@ -43,3 +43,12 @@
 //         return 'Бунгало';
 //     } else { return 'Дом' };
 // };
+
+// mapPinMain.addEventListener('mouseup', function (evt) {
+//     evt.preventDefault;
+//     window.form.activForm();
+//     window.pin.renderPins(window.data);
+//     // window.card.renderCards(window.data);
+//     mapPin.classList.remove('hidden');
+//     // mapPins.appendChild(fragmentPin);
+//   });

@@ -52,3 +52,13 @@
 //     mapPin.classList.remove('hidden');
 //     // mapPins.appendChild(fragmentPin);
 //   });
+
+// adsElement.querySelector('.popup__photos').src = card.offer.photos;
+// var photos = adsElement.querySelector('.popup__photos');
+// var photoImg = photos.querySelector('.popup__photo');
+// photos.innerHTML = '';
+// card.offer.photos.forEach(function (src) {
+//   var photo = photoImg.cloneNode(true);
+//   photo.src = src;
+//   photos.appendChild(photo);
+// });

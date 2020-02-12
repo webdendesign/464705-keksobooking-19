@@ -1,42 +1,59 @@
-'use strict';
+// 'use strict';
+// (function () {
 
-(function () {
+//   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+//   var map = document.querySelector('.map');
 
-  // var mapPins = document.querySelector('.map__pins');
+//   var cardCurrent = null;
+//   var pinActive = null;
 
-  // var templatePin = document.querySelector('template').content.querySelector('.map__pin');
+//   var onEscPress = window.util.isEscPress(closeCardCurrent);
+//   var onCloseCardEnterPress = window.util.isEnterPress(closeCardCurrent);
 
-  // function onPinClick() {
-  //   openCard();
-  // }
+//   function closeCardCurrent() {
+//     if (cardCurrent) {
+//       pinActive.classList.remove('map__pin--active');
+//       pinActive.blur();
+//       cardCurrent.remove();
+//     }
+//   }
 
-  // function openCard() {
-  //   window.renderCard();
-  // }
+//   function onCardCloseClick(evt) {
+//     evt.preventDefault();
+//     closeCardCurrent();
+//     document.removeEventListener('keydown', onEscPress);
+//   }
 
-  // // var renderPin = function (user) {
-  //   var userElement = templatePin.cloneNode(true);
+//   function createPin(data) {
+//     if (!data.offer) {
+//       return false;
+//     }
+//     var pinElement = pinTemplate.cloneNode(true);
+//     var image = pinElement.querySelector('img');
+//     pinElement.style.left = data.location.x + 'px';
+//     pinElement.style.top = data.location.y + 'px';
+//     image.src = data.author.avatar;
+//     image.alt = data.offer.title;
 
-  //   userElement.style.left = user.location.x + 'px';
-  //   userElement.style.top = user.location.y + 'px';
+//     function onPinClick() {
+//       if (pinActive) {
+//         pinActive.classList.remove('map__pin--active');
+//       }
+//       pinActive = pinElement;
+//       pinActive.classList.add('map__pin--active');
+//       window.openCard.openCardCurrent(data);
+//     }
 
-  //   userElement.querySelector('img').src = user.author.avatar;
+//     // var onOpenCardEnterPress = window.util.isEnterPress(openCardCurrent);
 
-  //   userElement.querySelector('img').alt = user.offer.title;
+//     pinElement.addEventListener('click', onPinClick);
+//     // pinElement.addEventListener('keydown', onOpenCardEnterPress);
 
-  //   userElement.addEventListener('click', onPinClick);
+//     return pinElement;
+//   }
 
-  //   return userElement;
-  // };
-
-  // window.renderPins = function (pins) {
-
-  //   var fragmentPin = document.createDocumentFragment();
-
-  //   for (var i = 0; i < pins.length; i++) {
-  //     fragmentPin.appendChild(renderPin(pins[i]));
-  //   }
-  //   mapPins.appendChild(fragmentPin);
-  // }
-  // window.backend.load(renderPins);
-})();
+//   window.pin = {
+//     createAdPin: createPin,
+//     closeAdCurrent: closeCardCurrent
+//   };
+// })();

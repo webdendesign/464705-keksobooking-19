@@ -215,21 +215,13 @@
     }
 
     if (valid) {
-      var formNew = new FormData(adForm);
-      window.ajax({
-        method: 'POST',
-        url: 'https://js.dump.academy/keksobooking',
-        data: formNew,
-        success: function () {
-          changePage();
-          window.load.renderSuccessMessage();
+      adForm.addEventListener('submit', function (evt) {
 
-        },
-        sendError: function () {
+        window.upload(new FormData(adForm), function (response) {
+          window.load.renderSuccessMessage();
           changePage();
-          window.load.renderErrorMessage();
-        },
-        type: 'json'
+        });
+        evt.preventDefault();
       });
     }
   }

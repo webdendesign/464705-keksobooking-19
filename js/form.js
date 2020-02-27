@@ -12,12 +12,10 @@
   var main = document.querySelector('main');
   var mapPinMain = main.querySelector('.map__pin--main');
   var adForm = main.querySelector('.ad-form');
-  var adFormElements = Array.from(adForm.elements);
   var timeInElement = adForm.querySelector('#timein');
   var timeOutElement = adForm.querySelector('#timeout');
 
   var roomNumberElement = adForm.querySelector('#room_number');
-  var guestNumberElement = adForm.querySelector('#capacity');
 
   var typeHousingElement = adForm.querySelector('#type');
 
@@ -40,39 +38,17 @@
     }
   };
 
-  var roomForGuestsMap = {
-    '1': ['1'],
-    '2': ['2', '1'],
-    '3': ['3', '2', '1'],
-    '100': ['0'],
-  };
+  window.disabled.changeForm();
 
-  function changeConditionAdForm() {
-    adFormElements.forEach(function (adFormElement) {
-      adFormElement.disabled = adForm.classList.contains('ad-form--disabled') ? true : false;
-    });
-  }
-
-  changeConditionAdForm();
-
-  function getMainPinStartCoordinates() {
-    var mainPinStartCoords = {
-      x: parseInt(mapPinMain.style.left, 10) + mapPinMain.getBoundingClientRect().width / 2,
-      y: parseInt(mapPinMain.style.top, 10) + mapPinMain.getBoundingClientRect().height / 2
-    };
-
-    adForm.address.value = mainPinStartCoords.x + ', ' + mainPinStartCoords.y;
-  }
-
-  getMainPinStartCoordinates();
+  window.formCoordinate.getMainPinStartCoordinates();
 
   function addEventAdForm() {
     adForm.classList.remove('ad-form--disabled');
-    changeConditionAdForm();
-    roomNumberElement.addEventListener('change', onChangeRooms);
+    window.disabled.changeForm();
+    roomNumberElement.addEventListener('change', window.rooms.onChangeRooms);
     typeHousingElement.addEventListener('change', onChangeType);
-    timeInElement.addEventListener('change', onChangeTimeIn);
-    timeOutElement.addEventListener('change', onChangeTimeOut);
+    timeInElement.addEventListener('change', window.time.onChangeTimeIn);
+    timeOutElement.addEventListener('change', window.time.onChangeTimeOut);
     adForm.addEventListener('reset', onResetForm);
     adForm.addEventListener('submit', onSubmitForm);
     document.addEventListener('pinMoveEvent', onPinMoveEventAddressField);
@@ -80,27 +56,14 @@
 
   function removeEventAdForm() {
     adForm.classList.add('ad-form--disabled');
-    changeConditionAdForm();
-    roomNumberElement.removeEventListener('change', onChangeRooms);
+    window.disabled.changeForm();
+    roomNumberElement.removeEventListener('change', window.rooms.onChangeRooms);
     typeHousingElement.removeEventListener('change', onChangeType);
-    timeInElement.removeEventListener('change', onChangeTimeIn);
-    timeOutElement.removeEventListener('change', onChangeTimeOut);
+    timeInElement.removeEventListener('change', window.time.onChangeTimeIn);
+    timeOutElement.removeEventListener('change', window.time.onChangeTimeOut);
     adForm.removeEventListener('reset', onResetForm);
     adForm.removeEventListener('submit', onSubmitForm);
     document.addEventListener('pinMoveEvent', onPinMoveEventAddressField);
-  }
-
-  function changeRoomNumberValue(value) {
-    Array.from(guestNumberElement.options).forEach(function (option) {
-      option.disabled = !roomForGuestsMap[value].includes(option.value);
-    });
-    guestNumberElement.value = value > 3 ? '0' : value;
-  }
-
-  changeRoomNumberValue(roomNumberElement.value);
-
-  function onChangeRooms(evt) {
-    changeRoomNumberValue(evt.currentTarget.value);
   }
 
   var housingTypes = Object.keys(typeHousingMap);
@@ -140,16 +103,6 @@
     adForm.price.placeholder = typeHousingMap[evt.currentTarget.value].min;
   }
 
-  function onChangeTimeIn(evt) {
-    var timeInCurrentValue = evt.currentTarget.value;
-    timeOutElement.value = timeInCurrentValue;
-  }
-
-  function onChangeTimeOut(evt) {
-    var timeOutCurrentValue = evt.currentTarget.value;
-    timeInElement.value = timeOutCurrentValue;
-  }
-
   function onPinMoveEventAddressField(evt) {
     adForm.address.value = evt.coords.x + ', ' + evt.coords.y;
   }
@@ -170,7 +123,7 @@
     window.filter.disableFilterForm();
     mapPinMain.style.left = Coordinate.LEFT + 'px';
     mapPinMain.style.top = Coordinate.TOP + 'px';
-    getMainPinStartCoordinates();
+    window.formCoordinate.getMainPinStartCoordinates();
     window.movement.init(function () {
       var pinBoxElement = document.querySelector('.map__pins');
       addEventAdForm();

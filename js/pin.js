@@ -8,7 +8,7 @@
   var pinActive = null;
 
   var onEscPress = window.util.isEscPress(closeCardCurrent);
-  var onCloseCardEnterPress = window.util.isEnterPress(closeCardCurrent);
+  var onCardCloseEnterPress = window.util.isEnterPress(closeCardCurrent);
 
   function closeCardCurrent() {
     if (cardCurrent) {
@@ -35,28 +35,34 @@
     image.src = data.author.avatar;
     image.alt = data.offer.title;
 
+    function pinActiveClick() {
+      if (pinActive) {
+        pinActive.classList.remove('map__pin--active');
+      }
+      pinActive = pinElement;
+      pinActive.classList.add('map__pin--active');
+    }
+
     function onPinClick() {
       openCardCurrent();
     }
 
     function openCardCurrent() {
+
+      pinActiveClick();
+
       if (cardCurrent) {
         cardCurrent.remove();
       }
 
       cardCurrent = window.card.createCard(data);
 
-      if (pinActive) {
-        pinActive.classList.remove('map__pin--active');
-      }
-      pinActive = pinElement;
-      pinActive.classList.add('map__pin--active');
       map.lastElementChild.insertAdjacentElement('beforeBegin', cardCurrent);
 
       var cardClose = cardCurrent.querySelector('.popup__close');
 
       cardClose.addEventListener('click', onCardCloseClick);
-      cardClose.addEventListener('keydown', onCloseCardEnterPress);
+      cardClose.addEventListener('keydown', onCardCloseEnterPress);
       document.addEventListener('keydown', onEscPress);
     }
 

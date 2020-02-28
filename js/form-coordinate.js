@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-
   var main = document.querySelector('main');
   var mapPinMain = main.querySelector('.map__pin--main');
   var adForm = main.querySelector('.ad-form');
@@ -14,8 +13,15 @@
     adForm.address.value = mainPinStartCoords.x + ', ' + mainPinStartCoords.y;
   }
 
+  function onPinMoveEventAddressField(evt) {
+    adForm.address.value = evt.coords.x + ', ' + evt.coords.y;
+  }
+
+  document.addEventListener('pinMoveEvent', onPinMoveEventAddressField);
+
   window.formCoordinate = {
-    getMainPinStartCoordinates: getMainPinStartCoordinates
+    getMainPinStartCoordinates: getMainPinStartCoordinates,
+    onPinMoveEventAddressField: onPinMoveEventAddressField
   };
 
 })();

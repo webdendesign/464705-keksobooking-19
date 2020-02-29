@@ -1,67 +1,67 @@
-'use strict';
-(function () {
+// 'use strict';
+// (function () {
 
-  var mapMain = document.querySelector('.map');
-  var mapPins = mapMain.querySelector('.map__pins');
-  var mapPin = mapPins.querySelectorAll('.map__pin');
+//   var mapMain = document.querySelector('.map');
+//   var mapPins = mapMain.querySelector('.map__pins');
+//   var mapPin = mapPins.querySelectorAll('.map__pin');
 
-  var cardCurrent = null;
-  var pinActive = null;
+//   var cardCurrent = null;
+//   var pinActive = null;
 
-  var onEscPress = window.util.isEscPress(closeCardCurrent);
-  var onCloseCardEnterPress = window.util.isEnterPress(closeCardCurrent);
+//   var onEscPress = window.util.isEscPress(closeCardCurrent);
+//   var onCloseCardEnterPress = window.util.isEnterPress(closeCardCurrent);
 
-  function closeCardCurrent() {
-    if (cardCurrent) {
-      pinActive.classList.remove('map__pin--active');
-      pinActive.blur();
-      cardCurrent.remove();
-    }
-  }
+//   function closeCardCurrent() {
+//     if (cardCurrent) {
+//       pinActive.classList.remove('map__pin--active');
+//       pinActive.blur();
+//       cardCurrent.remove();
+//     }
+//   }
 
-  function onCardCloseClick(evt) {
-    evt.preventDefault();
-    closeCardCurrent();
-    document.removeEventListener('keydown', onEscPress);
-  }
+//   function onCardCloseClick(evt) {
+//     evt.preventDefault();
+//     closeCardCurrent();
+//     document.removeEventListener('keydown', onEscPress);
+//   }
 
-  var pinActiveClick = function () {
-    if (pinActive) {
-      pinActive.classList.remove('map__pin--active');
-    }
-    pinActive = window.pin.createAdPin;
-    pinActive.classList.add('map__pin--active');
-  };
+//   var pinActiveClick = function () {
+//     if (pinActive) {
+//       pinActive.classList.remove('map__pin--active');
+//     }
+//     pinActive = window.pin.createAdPin;
+//     pinActive.classList.add('map__pin--active');
+//   };
 
-  var onPinClick = function () {
-    openCardCurrent();
-  };
+//   var onPinClick = function () {
+//     openCardCurrent();
+//   };
 
-  function openCardCurrent() {
+//   function openCardCurrent() {
 
-    pinActiveClick();
+//     pinActiveClick();
 
-    if (cardCurrent) {
-      cardCurrent.remove();
-    }
+//     if (cardCurrent) {
+//       cardCurrent.remove();
+//     }
 
-    cardCurrent = window.card.createCard(window.data.set);
+//     cardCurrent = window.card.createCard(window.data.set);
 
-    mapMain.lastElementChild.insertAdjacentElement('beforeBegin', cardCurrent);
+//     mapMain.lastElementChild.insertAdjacentElement('beforeBegin', cardCurrent);
 
-    var cardClose = cardCurrent.querySelector('.popup__close');
+//     var cardClose = cardCurrent.querySelector('.popup__close');
 
-    cardClose.addEventListener('click', onCardCloseClick);
-    cardClose.addEventListener('keydown', onCloseCardEnterPress);
-    document.addEventListener('keydown', onEscPress);
-  }
+//     cardClose.addEventListener('click', onCardCloseClick);
+//     cardClose.addEventListener('keydown', onCloseCardEnterPress);
+//     document.addEventListener('keydown', onEscPress);
+//   }
 
-  // var onOpenCardEnterPress = window.util.isEnterPress(openCardCurrent);
+//   // var onOpenCardEnterPress = window.util.isEnterPress(openCardCurrent);
 
-  for (var i = 1; i < mapPin.length; i++) {
-    mapPin[i].addEventListener('click', function () {
-      onPinClick();
-    });
-  }
+//   for (var i = 1; i < mapPin.length; i++) {
+//     mapPin[i].addEventListener('click', function () {
+//       onPinClick();
+//     });
+//   }
 
-})();
+// })();

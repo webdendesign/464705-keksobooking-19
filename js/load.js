@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  var mainElement = document.querySelector('main');
+  var main = document.querySelector('main');
   var successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
   var errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
 
@@ -52,11 +52,11 @@
   }
 
   function deleteMessage(blockMessage) {
-    mainElement.removeChild(blockMessage);
+    main.removeChild(blockMessage);
   }
 
   function addMessage(blockMessage) {
-    mainElement.appendChild(blockMessage);
+    main.appendChild(blockMessage);
   }
 
   window.load = {

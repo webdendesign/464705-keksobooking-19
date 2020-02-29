@@ -1,14 +1,14 @@
 'use strict';
 (function () {
 
+  var ESC_KEY = 'Escape';
+  var ENTER_KEY = 'Enter';
+
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var map = document.querySelector('.map');
 
   var cardCurrent = null;
   var pinActive = null;
-
-  var onEscPress = window.util.isEscPress(closeCardCurrent);
-  var onCardCloseEnterPress = window.util.isEnterPress(closeCardCurrent);
 
   function closeCardCurrent() {
     if (cardCurrent) {
@@ -16,12 +16,6 @@
       pinActive.blur();
       cardCurrent.remove();
     }
-  }
-
-  function onCardCloseClick(evt) {
-    evt.preventDefault();
-    closeCardCurrent();
-    document.removeEventListener('keydown', onEscPress);
   }
 
   function createPin(data) {
@@ -43,12 +37,19 @@
       pinActive.classList.add('map__pin--active');
     }
 
-    function onPinClick() {
-      openCardCurrent();
-    }
+    var onPopupEscPress = function (evt) {
+      if (evt.key === ESC_KEY) {
+        closePopup();
+      }
+    };
 
-    function openCardCurrent() {
+    var closePopup = function () {
+      cardCurrent.remove();
+      pinActive.classList.remove('map__pin--active');
+      document.removeEventListener('keydown', onPopupEscPress);
+    };
 
+    function openPopup() {
       pinActiveClick();
 
       if (cardCurrent) {
@@ -60,16 +61,28 @@
       map.lastElementChild.insertAdjacentElement('beforeBegin', cardCurrent);
 
       var cardClose = cardCurrent.querySelector('.popup__close');
+      document.addEventListener('keydown', onPopupEscPress);
 
-      cardClose.addEventListener('click', onCardCloseClick);
-      cardClose.addEventListener('keydown', onCardCloseEnterPress);
-      document.addEventListener('keydown', onEscPress);
+      cardClose.addEventListener('click', function () {
+        closePopup();
+      });
+
+      cardClose.addEventListener('keydown', function (evt) {
+        if (evt.key === ENTER_KEY) {
+          closePopup();
+        }
+      });
     }
 
-    var onOpenCardEnterPress = window.util.isEnterPress(openCardCurrent);
+    pinElement.addEventListener('click', function () {
+      openPopup();
+    });
 
-    pinElement.addEventListener('click', onPinClick);
-    pinElement.addEventListener('keydown', onOpenCardEnterPress);
+    pinElement.addEventListener('keydown', function (evt) {
+      if (evt.key === ENTER_KEY) {
+        openPopup();
+      }
+    });
 
     return pinElement;
   }

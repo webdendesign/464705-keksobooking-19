@@ -34,7 +34,7 @@
   window.disabled.changeForm();
   window.formCoordinate.getMainPinStartCoordinates();
 
-  function addEventAdForm() {
+  function addEventForm() {
     adForm.classList.remove('ad-form--disabled');
     window.disabled.changeForm();
     roomNumberElement.addEventListener('change', window.rooms.onChangeRooms);
@@ -46,7 +46,7 @@
     document.addEventListener('pinMoveEvent', window.form.onPinMoveEventAddressField);
   }
 
-  function removeEventAdForm() {
+  function removeEventForm() {
     adForm.classList.add('ad-form--disabled');
     window.disabled.changeForm();
     roomNumberElement.removeEventListener('change', window.rooms.onChangeRooms);
@@ -114,8 +114,8 @@
   }
 
   window.form = {
-    startForm: addEventAdForm,
-    resetForm: removeEventAdForm
+    startForm: addEventForm,
+    resetForm: removeEventForm
   };
 
 })();

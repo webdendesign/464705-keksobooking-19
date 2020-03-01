@@ -39,17 +39,17 @@
 
     var onPopupEscPress = function (evt) {
       if (evt.key === ESC_KEY) {
-        closePopup();
+        closeCurrentCard();
       }
     };
 
-    var closePopup = function () {
+    var closeCurrentCard = function () {
       cardCurrent.remove();
       pinActive.classList.remove('map__pin--active');
       document.removeEventListener('keydown', onPopupEscPress);
     };
 
-    function openPopup() {
+    function openCurrentCard() {
       pinActiveClick();
 
       if (cardCurrent) {
@@ -64,23 +64,23 @@
       document.addEventListener('keydown', onPopupEscPress);
 
       cardClose.addEventListener('click', function () {
-        closePopup();
+        closeCurrentCard();
       });
 
       cardClose.addEventListener('keydown', function (evt) {
         if (evt.key === ENTER_KEY) {
-          closePopup();
+          closeCurrentCard();
         }
       });
     }
 
     pinElement.addEventListener('click', function () {
-      openPopup();
+      openCurrentCard();
     });
 
     pinElement.addEventListener('keydown', function (evt) {
       if (evt.key === ENTER_KEY) {
-        openPopup();
+        openCurrentCard();
       }
     });
 

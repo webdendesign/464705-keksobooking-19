@@ -88,7 +88,7 @@
   }
 
   window.pin = {
-    createAdPin: createPin,
+    createPin: createPin,
     closeAdCurrent: closeCardCurrent
   };
 })();

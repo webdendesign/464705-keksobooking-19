@@ -2,12 +2,12 @@
 (function () {
 
   var map = document.querySelector('.map');
-  var formElement = map.querySelector('.map__filters');
-  var filterFormElements = Array.from(formElement.elements);
+  var mapFilter = map.querySelector('.map__filters');
+  var filterElements = Array.from(mapFilter.elements);
 
   function changeConditionFilterForm() {
-    filterFormElements.forEach(function (filterFormElement) {
-      filterFormElement.disabled = map.classList.contains('map--faded') ? true : false;
+    filterElements.forEach(function (filterElement) {
+      filterElement.disabled = map.classList.contains('map--faded') ? true : false;
     });
   }
 
@@ -16,14 +16,14 @@
   function addEventFilterForm() {
     map.classList.remove('map--faded');
     changeConditionFilterForm();
-    formElement.addEventListener('change', window.filterPin.onChangeFilter);
+    mapFilter.addEventListener('change', window.filterPin.onChangeFilter);
   }
 
   function removeEventFilterForm() {
-    formElement.reset();
+    mapFilter.reset();
     map.classList.add('map--faded');
     changeConditionFilterForm();
-    formElement.removeEventListener('change', window.filterPin.onChangeFilter);
+    mapFilter.removeEventListener('change', window.filterPin.onChangeFilter);
   }
 
   window.filter = {

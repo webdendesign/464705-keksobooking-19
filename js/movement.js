@@ -13,7 +13,10 @@
   var mainPinHeight = mapPinMain.getBoundingClientRect().height;
 
   function getCoordinates() {
-    var pinMoveEvent = new Event('pinMoveEvent', {bubbles: true, cancelable: true});
+    var pinMoveEvent = new Event('pinMoveEvent', {
+      bubbles: true,
+      cancelable: true
+    });
     pinMoveEvent.coords = {
       x: mapPinMain.offsetLeft + mainPinWidth / 2,
       y: mapPinMain.offsetTop + mainPinHeight
@@ -47,7 +50,6 @@
       };
 
       var pinLeft = mapPinMain.offsetLeft - shift.x;
-
       var pinTop = mapPinMain.offsetTop - shift.y;
 
       if (pinLeft < mapPins.offsetLeft - mainPinWidth / 2 || pinLeft > mapPins.offsetWidth - mainPinWidth / 2) {

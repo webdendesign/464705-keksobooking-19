@@ -28,6 +28,16 @@
     }
   };
 
+  function onLoad() {
+    window.resetForm.onResetForm();
+    window.message.renderSuccessMessage();
+  }
+
+  function onError() {
+    window.resetForm.onResetForm();
+    window.message.renderErrorMessage();
+  }
+
   window.disabled.changeForm();
   window.formCoordinate.getMainPinStartCoordinates();
 
@@ -66,22 +76,7 @@
     }
 
     if (valid) {
-      var formNew = new FormData(adForm);
-      window.ajax({
-        method: 'POST',
-        url: 'https://js.dump.academy/keksobooking',
-        data: formNew,
-        success: function () {
-          window.resetForm.onResetForm();
-          window.load.renderSuccessMessage();
-
-        },
-        sendError: function () {
-          window.resetForm.onResetForm();
-          window.load.renderErrorMessage();
-        },
-        type: 'json'
-      });
+      window.upload(new FormData(adForm), onLoad, onError);
     }
 
   }

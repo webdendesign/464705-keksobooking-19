@@ -140,7 +140,7 @@
     }).slice(0, 5);
 
     window.map.clearMap();
-    window.debounce(window.map.renderElements)(filteredPins, pinBoxElement, window.pin.createAdPin);
+    window.debounce(window.map.renderElements)(filteredPins, pinBoxElement, window.pin.createPin);
 
   }
 

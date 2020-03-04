@@ -22,7 +22,7 @@
       window.form.startForm();
       window.filter.enableFilterForm();
       var pins = window.data.get().slice(0, 5);
-      window.map.renderElements(pins, pinBoxElement, window.pin.createAdPin);
+      window.map.renderElements(pins, pinBoxElement, window.pin.createPin);
     });
   }
 

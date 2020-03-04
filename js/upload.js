@@ -2,7 +2,7 @@
 
 (function () {
 
-  window.upload = function (data, onLoad, onError) {
+  function upload(data, onLoad, onError) {
 
     var URL = 'https://js.dump.academy/keksobooking';
 
@@ -11,14 +11,16 @@
 
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
-        onLoad(xhr.response);
+        onLoad();
       } else {
-        onError('Произошла ошибка');
+        onError();
       }
     });
 
     xhr.open('POST', URL);
     xhr.send(data);
-  };
+  }
+
+  window.upload = upload;
 
 })();

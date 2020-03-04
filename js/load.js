@@ -1,66 +1,34 @@
 'use strict';
+
 (function () {
-  var main = document.querySelector('main');
-  var successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
-  var errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
 
-  var successMessage = null;
-  var errorMessage = null;
+  function load(onLoad, onError) {
 
-  function renderSuccessMessage() {
-    successMessage = successMessageTemplate.cloneNode(true);
-    addMessage(successMessage);
-    document.addEventListener('keydown', onSuccessEscPress);
-    document.addEventListener('click', onSuccessDocumentClick);
-  }
+    var URL = 'https://js.dump.academy/keksobooking/data';
 
-  var onSuccessEscPress = window.util.isEscPress(deleteSuccessMessage);
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
 
-  function onSuccessDocumentClick(evt) {
-    evt.preventDefault();
-    deleteSuccessMessage();
-  }
-
-  function deleteSuccessMessage() {
-    deleteMessage(successMessage);
-    document.removeEventListener('keydown', onSuccessEscPress);
-    document.removeEventListener('click', onSuccessDocumentClick);
-  }
-
-  function renderErrorMessage() {
-    errorMessage = errorMessageTemplate.cloneNode(true);
-    var closeButton = errorMessage.querySelector('.error__button');
-    addMessage(errorMessage);
-    closeButton.addEventListener('click', function (evt) {
-      evt.preventDefault();
-      deleteErrorMessage();
+    xhr.addEventListener('load', function () {
+      if (xhr.status === 200) {
+        onLoad(xhr.response);
+      } else {
+        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+      }
     });
-    document.addEventListener('keydown', onErrorEscPress);
-    document.addEventListener('click', onErrorDocumentClick);
-  }
-  var onErrorEscPress = window.util.isEscPress(deleteErrorMessage);
+    xhr.addEventListener('error', function () {
+      onError('Произошла ошибка соединения');
+    });
+    xhr.addEventListener('timeout', function () {
+      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+    });
 
-  function deleteErrorMessage() {
-    document.removeEventListener('keydown', onErrorEscPress);
-    document.removeEventListener('click', onErrorDocumentClick);
-    deleteMessage(errorMessage);
-  }
+    xhr.timeout = 10000;
 
-  function onErrorDocumentClick(evt) {
-    evt.preventDefault();
-    deleteErrorMessage();
+    xhr.open('GET', URL);
+    xhr.send();
   }
 
-  function deleteMessage(blockMessage) {
-    main.removeChild(blockMessage);
-  }
+  window.load = load;
 
-  function addMessage(blockMessage) {
-    main.appendChild(blockMessage);
-  }
-
-  window.load = {
-    renderSuccessMessage: renderSuccessMessage,
-    renderErrorMessage: renderErrorMessage
-  };
 })();

@@ -40,7 +40,7 @@
     };
     xhr.onerror = function () {
       if (typeof options.sendError === 'function') {
-        options.sendError('Произошла ошибка соединения!');
+        options.sendError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     };
 

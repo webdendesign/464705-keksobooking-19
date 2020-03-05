@@ -30,12 +30,12 @@
 
   function onLoad() {
     window.resetForm.onResetForm();
-    window.message.renderSuccessMessage();
+    window.messageSuccess.renderSuccessMessage();
   }
 
   function onError() {
     window.resetForm.onResetForm();
-    window.message.renderErrorMessage();
+    window.messageError.renderErrorMessage();
   }
 
   window.disabled.changeForm();

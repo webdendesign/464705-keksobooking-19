@@ -18,6 +18,7 @@
           var errorBlock = document.createElement('div');
           errorBlock.classList.add('error-block');
           errorBlock.style.border = '2px solid blue';
+          errorBlock.style.backgroundColor = 'yellow';
           errorBlock.style.textAlign = 'center';
           errorBlock.textContent = errorMessage;
           mainElement.insertAdjacentElement('afterbegin', errorBlock);

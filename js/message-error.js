@@ -1,31 +1,9 @@
 'use strict';
 (function () {
   var main = document.querySelector('main');
-  var successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
   var errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
 
-  var successMessage = null;
   var errorMessage = null;
-
-  function renderSuccessMessage() {
-    successMessage = successMessageTemplate.cloneNode(true);
-    addMessage(successMessage);
-    document.addEventListener('keydown', onSuccessEscPress);
-    document.addEventListener('click', onSuccessDocumentClick);
-  }
-
-  var onSuccessEscPress = window.util.isEscPress(deleteSuccessMessage);
-
-  function onSuccessDocumentClick(evt) {
-    evt.preventDefault();
-    deleteSuccessMessage();
-  }
-
-  function deleteSuccessMessage() {
-    deleteMessage(successMessage);
-    document.removeEventListener('keydown', onSuccessEscPress);
-    document.removeEventListener('click', onSuccessDocumentClick);
-  }
 
   function renderErrorMessage() {
     errorMessage = errorMessageTemplate.cloneNode(true);
@@ -51,16 +29,15 @@
     deleteErrorMessage();
   }
 
-  function deleteMessage(blockMessage) {
-    main.removeChild(blockMessage);
-  }
-
   function addMessage(blockMessage) {
     main.appendChild(blockMessage);
   }
 
-  window.message = {
-    renderSuccessMessage: renderSuccessMessage,
+  function deleteMessage(blockMessage) {
+    main.removeChild(blockMessage);
+  }
+
+  window.messageError = {
     renderErrorMessage: renderErrorMessage
   };
 })();

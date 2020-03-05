@@ -3,21 +3,25 @@
 (function () {
 
   function upload(data, onLoad, onError) {
-
+    var statusCode = {
+      OK: 200
+    };
     var URL = 'https://js.dump.academy/keksobooking';
+
+    var async = true;
 
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
+      if (xhr.status === statusCode.OK) {
         onLoad();
       } else {
         onError();
       }
     });
 
-    xhr.open('POST', URL);
+    xhr.open('POST', URL, async);
     xhr.send(data);
   }
 

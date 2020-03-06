@@ -1,5 +1,4 @@
 'use strict';
-
 (function () {
   var typeHouse = {
     'palace': 'Дворец',
@@ -11,16 +10,16 @@
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
   function createCard(data) {
-    var cardElement = cardTemplate.cloneNode(true);
-    cardElement.querySelector('.popup__title').textContent = data.offer.title;
-    cardElement.querySelector('.popup__text--address').textContent = data.offer.address;
-    cardElement.querySelector('.popup__text--price').innerHTML = data.offer.price + ' р' + '<span>/ночь</span>';
-    cardElement.querySelector('.popup__type').textContent = typeHouse[data.offer.type];
-    cardElement.querySelector('.popup__text--capacity').textContent = data.offer.rooms + ' комнаты для ' + data.offer.guests + ' гостей.';
-    cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + data.offer.checkin + ', выезд до ' + data.offer.checkout + '.';
-    cardElement.querySelector('.popup__description').textContent = data.offer.description;
+    var card = cardTemplate.cloneNode(true);
+    card.querySelector('.popup__title').textContent = data.offer.title;
+    card.querySelector('.popup__text--address').textContent = data.offer.address;
+    card.querySelector('.popup__text--price').innerHTML = data.offer.price + ' р/ночь';
+    card.querySelector('.popup__type').textContent = typeHouse[data.offer.type];
+    card.querySelector('.popup__text--capacity').textContent = data.offer.rooms + ' комнаты для ' + data.offer.guests + ' гостей.';
+    card.querySelector('.popup__text--time').textContent = 'Заезд после ' + data.offer.checkin + ', выезд до ' + data.offer.checkout + '.';
+    card.querySelector('.popup__description').textContent = data.offer.description;
 
-    var features = cardElement.querySelector('.popup__features');
+    var features = card.querySelector('.popup__features');
     var featureTemplate = features.querySelector('.popup__feature');
     features.innerHTML = '';
     data.offer.features.forEach(function (item) {
@@ -30,7 +29,7 @@
       features.appendChild(featureNewElement);
     });
 
-    var photos = cardElement.querySelector('.popup__photos');
+    var photos = card.querySelector('.popup__photos');
     var photoImgTemplate = photos.querySelector('.popup__photo');
     photos.innerHTML = '';
     data.offer.photos.forEach(function (src) {
@@ -39,12 +38,10 @@
       photos.appendChild(photoElement);
     });
 
-    cardElement.querySelector('.popup__avatar').src = data.author.avatar;
+    card.querySelector('.popup__avatar').src = data.author.avatar;
 
-    return cardElement;
+    return card;
   }
 
-  window.card = {
-    createCard: createCard,
-  };
+  window.card = createCard;
 })();

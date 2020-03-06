@@ -29,5 +29,4 @@
   window.housePrice = {
     onChangeType: onChangeType
   };
-
 })();

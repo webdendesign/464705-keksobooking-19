@@ -23,5 +23,4 @@
     getMainPinStartCoordinates: getMainPinStartCoordinates,
     onPinMoveEventAddressField: onPinMoveEventAddressField
   };
-
 })();

@@ -587,6 +587,20 @@ fieldset {
   font-size: 14px;
 }
 
+.errorblock {
+  position: relative;
+  width: 70%;
+}
+
+.errorblock__paragraph {
+  position: absolute;
+  width: 100%;
+  border: 1px solid purple;
+  color: orangered;
+  padding: 10px;
+  background-color: greenyellow;
+}
+
 .ad-form__element--wide {
   -ms-flex-preferred-size: 50%;
       flex-basis: 50%;

@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-
   var main = document.querySelector('main');
   var adForm = main.querySelector('.ad-form');
   var timeInElement = adForm.querySelector('#timein');
@@ -20,5 +19,4 @@
     onChangeTimeIn: onChangeTimeIn,
     onChangeTimeOut: onChangeTimeOut
   };
-
 })();

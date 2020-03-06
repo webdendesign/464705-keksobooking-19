@@ -1,13 +1,10 @@
 'use strict';
-
 (function () {
-
   function load(onLoad, onError) {
     var URL = 'https://js.dump.academy/keksobooking/data';
     var statusCode = {
       OK: 200
     };
-
     var TIMEOUT_IN_MS = 10000;
 
     var xhr = new XMLHttpRequest();
@@ -34,9 +31,7 @@
 
     xhr.open('GET', URL);
     xhr.send();
-
   }
 
   window.load = load;
-
 })();

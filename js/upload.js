@@ -1,7 +1,5 @@
 'use strict';
-
 (function () {
-
   function upload(data, onLoad, onError) {
     var statusCode = {
       OK: 200
@@ -24,5 +22,4 @@
   }
 
   window.upload = upload;
-
 })();

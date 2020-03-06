@@ -1,12 +1,10 @@
 'use strict';
 (function () {
-
   var ESC_KEY = 'Escape';
   var ENTER_KEY = 'Enter';
 
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var map = document.querySelector('.map');
-
   var cardCurrent = null;
   var pinActive = null;
 
@@ -56,10 +54,8 @@
         cardCurrent.remove();
       }
 
-      cardCurrent = window.card.createCard(data);
-
+      cardCurrent = window.card(data);
       map.lastElementChild.insertAdjacentElement('beforeBegin', cardCurrent);
-
       var cardClose = cardCurrent.querySelector('.popup__close');
       document.addEventListener('keydown', onPopupEscPress);
 
@@ -83,12 +79,11 @@
         openCurrentCard();
       }
     });
-
     return pinElement;
   }
 
   window.pin = {
     createPin: createPin,
-    closeAdCurrent: closeCardCurrent
+    closeCardCurrent: closeCardCurrent
   };
 })();

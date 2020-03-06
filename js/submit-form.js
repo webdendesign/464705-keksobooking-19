@@ -40,9 +40,7 @@
 
   window.disabled.changeForm();
   window.formCoordinate.getMainPinStartCoordinates();
-
   var housingTypes = Object.keys(typeHousingMap);
-
   var valid = true;
 
   function onSubmitForm(evt) {
@@ -78,11 +76,9 @@
     if (valid) {
       window.upload(new FormData(adForm), onLoad, onError);
     }
-
   }
 
   window.submitForm = {
     onSubmitForm: onSubmitForm
   };
-
 })();

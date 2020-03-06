@@ -12,6 +12,5 @@
     get: getData,
     set: setData
   };
-
 })();
 

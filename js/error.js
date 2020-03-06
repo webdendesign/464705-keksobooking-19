@@ -1,16 +1,23 @@
 'use strict';
 (function () {
-  var errorBox = null;
+  var errorDiv = null;
+
+  function changeInputStyle(inputName) {
+    inputName.value = '';
+    inputName.focus();
+    inputName.style.outline = 'none';
+    inputName.style.border = '2px solid red';
+  }
 
   function renderError(element, errorText) {
-    errorBox = document.createElement('div');
-    errorBox.className = 'errorbox';
+    errorDiv = document.createElement('div');
+    errorDiv.className = 'errorblock';
     var errorParagraph = document.createElement('p');
-    errorParagraph.className = 'errorbox__paragraph';
+    errorParagraph.className = 'errorblock__paragraph';
     errorParagraph.textContent = errorText;
 
-    errorBox.appendChild(errorParagraph);
-    element.insertAdjacentElement('afterEnd', errorBox);
+    errorDiv.appendChild(errorParagraph);
+    element.insertAdjacentElement('afterEnd', errorDiv);
 
     element.addEventListener('focus', onErrorRemove);
 
@@ -19,9 +26,7 @@
 
   function onErrorRemove(evt) {
     evt.preventDefault();
-    if (errorBox) {
-      errorBox.remove();
-    }
+    errorDiv.remove();
   }
 
   function onFocusRemove(evt) {
@@ -31,16 +36,8 @@
     evt.target.removeEventListener('blur', onFocusRemove);
   }
 
-  function changeInputStyle(inputName) {
-    inputName.value = '';
-    inputName.focus();
-    inputName.style.outline = 'none';
-    inputName.style.border = '2px solid red';
-  }
-
   window.error = {
     renderError: renderError,
     changeInputStyle: changeInputStyle
   };
-
 })();

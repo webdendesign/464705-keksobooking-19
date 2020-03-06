@@ -16,7 +16,7 @@
         var main = document.querySelector('main');
         var errorBlock = document.createElement('div');
         errorBlock.classList.add('error-block');
-        errorBlock.style.border = '2px solid blue';
+        errorBlock.style.border = '1px solid orange';
         errorBlock.style.backgroundColor = 'yellow';
         errorBlock.style.textAlign = 'center';
         errorBlock.textContent = errorMessage;

@@ -29,5 +29,4 @@
   window.resetForm = {
     onResetForm: changePage
   };
-
 })();

@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-
   var main = document.querySelector('main');
   var form = main.querySelector('.ad-form');
   var elements = Array.from(form.elements);
@@ -14,6 +13,5 @@
   window.disabled = {
     changeForm: changeForm
   };
-
 })();
 

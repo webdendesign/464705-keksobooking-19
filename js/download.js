@@ -5,25 +5,25 @@
       var mapPins = document.querySelector('.map__pins');
       window.form.startForm();
       window.filter.enableFilterForm();
-      window.ajax({
-        url: 'https://js.dump.academy/keksobooking/data',
-        type: 'json',
-        success: function (data) {
-          window.data.set(data);
-          var pins = window.data.get().slice(0, 5);
-          window.map.renderElements(pins, mapPins, window.pin.createPin);
-        },
-        sendError: function (errorMessage) {
-          var mainElement = document.querySelector('main');
-          var errorBlock = document.createElement('div');
-          errorBlock.classList.add('error-block');
-          errorBlock.style.border = '2px solid blue';
-          errorBlock.style.backgroundColor = 'yellow';
-          errorBlock.style.textAlign = 'center';
-          errorBlock.textContent = errorMessage;
-          mainElement.insertAdjacentElement('afterbegin', errorBlock);
-        }
-      });
+
+      var onLoad = function (data) {
+        window.data.set(data);
+        var pins = window.data.get().slice(0, 5);
+        window.map.renderElements(pins, mapPins, window.pin.createPin);
+      };
+
+      var onError = function (errorMessage) {
+        var main = document.querySelector('main');
+        var errorBlock = document.createElement('div');
+        errorBlock.classList.add('error-block');
+        errorBlock.style.border = '2px solid blue';
+        errorBlock.style.backgroundColor = 'yellow';
+        errorBlock.style.textAlign = 'center';
+        errorBlock.textContent = errorMessage;
+        main.insertAdjacentElement('afterbegin', errorBlock);
+      };
+
+      window.load(onLoad, onError);
     });
   }
 

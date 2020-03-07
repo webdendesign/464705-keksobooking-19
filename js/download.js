@@ -23,7 +23,7 @@
         main.insertAdjacentElement('afterbegin', errorBlock);
       };
 
-      window.load(onLoad, onError);
+      window.backend.load(onLoad, onError);
     });
   }
 

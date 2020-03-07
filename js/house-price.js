@@ -3,27 +3,27 @@
   var main = document.querySelector('main');
   var adForm = main.querySelector('.ad-form');
 
-  var typeHousingMap = {
+  var TypeHousingMap = {
     'bungalo': {
-      min: 0,
-      max: 1000000
+      MIN: 0,
+      MAX: 1000000
     },
     'flat': {
-      min: 1000,
-      max: 1000000
+      MIN: 1000,
+      MAX: 1000000
     },
     'house': {
-      min: 5000,
-      max: 1000000
+      MIN: 5000,
+      MAX: 1000000
     },
     'palace': {
-      min: 10000,
-      max: 1000000
+      MIN: 10000,
+      MAX: 1000000
     }
   };
 
   function onChangeType(evt) {
-    adForm.price.placeholder = typeHousingMap[evt.currentTarget.value].min;
+    adForm.price.placeholder = TypeHousingMap[evt.currentTarget.value].MIN;
   }
 
   window.housePrice = {

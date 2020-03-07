@@ -74,7 +74,7 @@
     }
 
     if (valid) {
-      window.upload(new FormData(adForm), onLoad, onError);
+      window.backend.upload(new FormData(adForm), onLoad, onError);
     }
   }
 

@@ -2,8 +2,10 @@
 (function () {
   var main = document.querySelector('main');
   var successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
+  var errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
 
   var successMessage = null;
+  var errorMessage = null;
 
   function renderSuccessMessage() {
     successMessage = successMessageTemplate.cloneNode(true);
@@ -25,6 +27,30 @@
     document.removeEventListener('click', onSuccessDocumentClick);
   }
 
+  function renderErrorMessage() {
+    errorMessage = errorMessageTemplate.cloneNode(true);
+    var closeButton = errorMessage.querySelector('.error__button');
+    addMessage(errorMessage);
+    closeButton.addEventListener('click', function (evt) {
+      evt.preventDefault();
+      deleteErrorMessage();
+    });
+    document.addEventListener('keydown', onErrorEscPress);
+    document.addEventListener('click', onErrorDocumentClick);
+  }
+  var onErrorEscPress = window.util.isEscPress(deleteErrorMessage);
+
+  function deleteErrorMessage() {
+    document.removeEventListener('keydown', onErrorEscPress);
+    document.removeEventListener('click', onErrorDocumentClick);
+    deleteMessage(errorMessage);
+  }
+
+  function onErrorDocumentClick(evt) {
+    evt.preventDefault();
+    deleteErrorMessage();
+  }
+
   function addMessage(blockMessage) {
     main.appendChild(blockMessage);
   }
@@ -33,7 +59,8 @@
     main.removeChild(blockMessage);
   }
 
-  window.messageSuccess = {
-    renderSuccessMessage: renderSuccessMessage
+  window.message = {
+    showSuccess: renderSuccessMessage,
+    showError: renderErrorMessage
   };
 })();

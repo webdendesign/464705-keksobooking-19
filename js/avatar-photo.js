@@ -2,9 +2,9 @@
 (function () {
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
-  var adForm = document.querySelector('.ad-form');
-  var fileChooser = adForm.querySelector('.ad-form__field input[type=file]');
-  var show = adForm.querySelector('.ad-form-header__preview img');
+  window.adForm = document.querySelector('.ad-form');
+  var fileChooser = window.adForm.querySelector('.ad-form__field input[type=file]');
+  var show = window.adForm.querySelector('.ad-form-header__preview img');
 
   fileChooser.addEventListener('change', function () {
     var file = fileChooser.files[0];

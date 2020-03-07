@@ -5,7 +5,7 @@
   var roomNumber = adForm.querySelector('#room_number');
   var guestNumber = adForm.querySelector('#capacity');
 
-  var roomForGuestsMap = {
+  var RoomForGuestsMap = {
     '1': ['1'],
     '2': ['2', '1'],
     '3': ['3', '2', '1'],
@@ -14,7 +14,7 @@
 
   function changeRoomNumberValue(value) {
     Array.from(guestNumber.options).forEach(function (option) {
-      option.disabled = !roomForGuestsMap[value].includes(option.value);
+      option.disabled = !RoomForGuestsMap[value].includes(option.value);
     });
     guestNumber.value = value > 3 ? '0' : value;
   }

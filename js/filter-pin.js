@@ -5,7 +5,7 @@
     PRICE_MAX: 50000
   };
 
-  var filterCriteria = {
+  var FilterCriteria = {
     housingType: 'any',
     housingPrice: 'any',
     housingRoom: 'any',
@@ -13,58 +13,58 @@
   };
 
   function updateHousingTypeFilter(value) {
-    filterCriteria.housingType = value;
-    return filterCriteria.housingType;
+    FilterCriteria.housingType = value;
+    return FilterCriteria.housingType;
   }
 
   function updateHousingPriceFilter(value) {
-    filterCriteria.housingPrice = value;
-    return filterCriteria.housingPrice;
+    FilterCriteria.housingPrice = value;
+    return FilterCriteria.housingPrice;
   }
 
   function updateHousingRoomsFilter(value) {
-    filterCriteria.housingRoom = value;
-    return filterCriteria.housingRoom;
+    FilterCriteria.housingRoom = value;
+    return FilterCriteria.housingRoom;
   }
 
   function updateHousingGuestsFilter(value) {
-    filterCriteria.housingGuest = value;
-    return filterCriteria.housingGuest;
+    FilterCriteria.housingGuest = value;
+    return FilterCriteria.housingGuest;
   }
 
   function updateHousingFeatureFilter(value) {
     // если массив существует и включает в себя значение value
-    if (filterCriteria.housingFeature && filterCriteria.housingFeature.includes(value)) {
+    if (FilterCriteria.housingFeature && FilterCriteria.housingFeature.includes(value)) {
       // удаляем это значение из массива
-      filterCriteria.housingFeature.splice(filterCriteria.housingFeature.indexOf(value), 1);
+      FilterCriteria.housingFeature.splice(FilterCriteria.housingFeature.indexOf(value), 1);
 
       // если массив не имеет длины
-      if (!filterCriteria.housingFeature.length) {
+      if (!FilterCriteria.housingFeature.length) {
         // удаляем свойство из объекта
-        delete filterCriteria.housingFeature;
+        delete FilterCriteria.housingFeature;
       }
     } else {
       // иначе свойство равно самому себе или пустому массиву
-      filterCriteria.housingFeature = filterCriteria.housingFeature || [];
+      FilterCriteria.housingFeature = FilterCriteria.housingFeature || [];
       // пушим в него значение value
-      filterCriteria.housingFeature.push(value);
+      FilterCriteria.housingFeature.push(value);
     }
-    return filterCriteria.housingFeature;
+    return FilterCriteria.housingFeature;
 
   }
 
   function housingTypeFilter(adObject) {
     var result = true;
-    if (filterCriteria.housingType !== 'any') {
-      result = filterCriteria.housingType === adObject.offer.type;
+    if (FilterCriteria.housingType !== 'any') {
+      result = FilterCriteria.housingType === adObject.offer.type;
     }
     return result;
   }
 
   function housingPriceFilter(adObject) {
     var result = true;
-    if (filterCriteria.housingPrice !== 'any') {
-      switch (filterCriteria.housingPrice) {
+    if (FilterCriteria.housingPrice !== 'any') {
+      switch (FilterCriteria.housingPrice) {
         case 'middle':
           result = adObject.offer.price >= Price.PRICE_MIN && adObject.offer.price <= Price.PRICE_MAX;
           break;
@@ -83,28 +83,28 @@
 
   function housingRoomFilter(adObject) {
     var result = true;
-    if (filterCriteria.housingRoom !== 'any') {
-      result = filterCriteria.housingRoom === adObject.offer.rooms;
+    if (FilterCriteria.housingRoom !== 'any') {
+      result = FilterCriteria.housingRoom === adObject.offer.rooms;
     }
     return result;
   }
 
   function housingGuestFilter(adObject) {
     var result = true;
-    if (filterCriteria.housingGuest !== 'any') {
-      result = filterCriteria.housingGuest === adObject.offer.guests;
+    if (FilterCriteria.housingGuest !== 'any') {
+      result = FilterCriteria.housingGuest === adObject.offer.guests;
     }
     return result;
   }
 
   function housingFeatureFilter(adObject) {
     // перебираем каждое добавленное значение массива преимуществ
-    return (filterCriteria.housingFeature || []).every(function (value) {
+    return (FilterCriteria.housingFeature || []).every(function (value) {
       // если хотя бы одно из значений не входит в массив преимуществ фильтруемых пинов, пин не включается в отфильтрованный массив
       var result = true;
       var indexFeature = adObject.offer.features.indexOf(value);
       var valueFeature = adObject.offer.features[indexFeature];
-      result = filterCriteria.housingFeature.includes(valueFeature);
+      result = FilterCriteria.housingFeature.includes(valueFeature);
       return result;
     });
   }

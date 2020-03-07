@@ -1,9 +1,13 @@
 'use strict';
 (function () {
+  var DEBOUNCE_INTERVAL = 500;
+
   var Price = {
     PRICE_MIN: 10000,
     PRICE_MAX: 50000
   };
+  var BEGIN = 0;
+  var END = 5;
 
   var FilterCriteria = {
     housingType: 'any',
@@ -109,6 +113,20 @@
     });
   }
 
+  var lastTimeout = null;
+
+  function debounce(cb) {
+    return function () {
+      var args = arguments;
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(function () {
+        cb.apply(null, args);
+      }, DEBOUNCE_INTERVAL);
+    };
+  }
+
   function onChangeFilter(evt) {
     evt.preventDefault();
     var pins = window.data.get();
@@ -137,10 +155,10 @@
 
     var filteredPins = pins.filter(function (pin) {
       return housingTypeFilter(pin) && housingPriceFilter(pin) && housingRoomFilter(pin) && housingGuestFilter(pin) && housingFeatureFilter(pin);
-    }).slice(0, 5);
+    }).slice(BEGIN, END);
 
     window.map.clearMap();
-    window.debounce(window.map.renderElements)(filteredPins, pinBoxElement, window.pin.createPin);
+    debounce(window.map.renderElements)(filteredPins, pinBoxElement, window.pin.createPin);
 
   }
 

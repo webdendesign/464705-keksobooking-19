@@ -2,13 +2,17 @@
 (function () {
   function onBeginApp() {
     window.movement.init(function () {
+      var Amount = {
+        BEGIN: 0,
+        END: 5
+      };
       var mapPins = document.querySelector('.map__pins');
-      window.form.startForm();
+      window.form.startWork();
       window.filter.enableFilterForm();
 
       var onLoad = function (data) {
         window.data.set(data);
-        var pins = window.data.get().slice(0, 5);
+        var pins = window.data.get().slice(Amount.BEGIN, Amount.END);
         window.map.renderElements(pins, mapPins, window.pin.createPin);
       };
 

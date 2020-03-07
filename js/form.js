@@ -11,11 +11,24 @@
   var typeHousingElement = adForm.querySelector('#type');
   var guestNumber = adForm.querySelector('#capacity');
   var elementsInput = Array.from(adForm.elements);
+  var fileChooser = adForm.querySelector('.ad-form__field input[type=file]');
+  var show = adForm.querySelector('.ad-form-header__preview img');
+  var photoContainer = adForm.querySelector('.ad-form__photo-container');
+  var fileChooserHouse = photoContainer.querySelector('.ad-form__upload input[type=file]');
+  var previewHouse = photoContainer.querySelector('.ad-form__photo');
+
 
   var TitleLength = {
     LENGTH_MIN: 30,
     LENGTH_MAX: 100
   };
+
+  var Amount = {
+    BEGIN: 0,
+    END: 5
+  };
+
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
   var TypeHousingMap = {
     'bungalo': {
@@ -133,15 +146,93 @@
     getMainPinStartCoordinates();
     window.movement.init(function () {
       var pinBoxElement = document.querySelector('.map__pins');
-      window.form.startForm();
+      window.form.startWork();
       window.filter.enableFilterForm();
-      var pins = window.data.get().slice(0, 5);
+      var pins = window.data.get().slice(Amount.BEGIN, Amount.END);
       window.map.renderElements(pins, pinBoxElement, window.pin.createPin);
     });
   }
 
   function onResetForm() {
     changePage();
+  }
+
+  fileChooser.addEventListener('change', function () {
+    var file = fileChooser.files[0];
+    var fileName = file.name.toLowerCase();
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+    if (matches) {
+      var reader = new FileReader();
+      reader.addEventListener('load', function () {
+        show.src = reader.result;
+      });
+      reader.readAsDataURL(file);
+    }
+  });
+
+  function createNewPreviewHouse(result) {
+    var imgContainer = previewHouse.cloneNode(true);
+    var newElement = document.createElement('img');
+    newElement.style.width = '70px';
+    newElement.style.height = '70px';
+    newElement.classList.add('ad-form__photo-img');
+    newElement.src = result;
+    newElement.alt = 'Фотография моего жилья';
+    imgContainer.appendChild(newElement);
+    return imgContainer;
+  }
+
+  fileChooserHouse.addEventListener('change', function () {
+    var file = fileChooserHouse.files[0];
+    var fileName = file.name.toLowerCase();
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+    if (matches) {
+      var readerHouse = new FileReader();
+      readerHouse.addEventListener('load', function () {
+        photoContainer.insertBefore(createNewPreviewHouse(readerHouse.result), previewHouse);
+      });
+      readerHouse.readAsDataURL(file);
+    }
+  });
+
+  var errorDiv = null;
+
+  function changeInputStyle(inputName) {
+    inputName.value = '';
+    inputName.focus();
+    inputName.style.outline = 'none';
+    inputName.style.border = '2px solid red';
+  }
+
+  function renderError(element, errorText) {
+    errorDiv = document.createElement('div');
+    errorDiv.className = 'errorblock';
+    var errorParagraph = document.createElement('p');
+    errorParagraph.className = 'errorblock__paragraph';
+    errorParagraph.textContent = errorText;
+
+    errorDiv.appendChild(errorParagraph);
+    element.insertAdjacentElement('afterEnd', errorDiv);
+
+    element.addEventListener('focus', onErrorRemove);
+
+    element.addEventListener('blur', onFocusRemove);
+  }
+
+  function onErrorRemove(evt) {
+    evt.preventDefault();
+    errorDiv.remove();
+  }
+
+  function onFocusRemove(evt) {
+    onErrorRemove(evt);
+    evt.target.style.border = 'none';
+    evt.target.removeEventListener('focus', onErrorRemove);
+    evt.target.removeEventListener('blur', onFocusRemove);
   }
 
   function onLoad() {
@@ -164,8 +255,8 @@
       var strLength = adForm.title.value.length;
       if (strLength < TitleLength.LENGTH_MIN || strLength > TitleLength.LENGTH_MAX) {
         valid = false;
-        window.error.changeInputStyle(adForm.title);
-        window.error.renderError(adForm.title, 'Количество символов в заголовке объявления не должно быть меньше 30 и больше 100');
+        changeInputStyle(adForm.title);
+        renderError(adForm.title, 'Количество символов в заголовке объявления не должно быть меньше 30 и больше 100');
         return;
       } else {
         valid = true;
@@ -177,8 +268,8 @@
         if (typeHousingElement.value === housingTypes[i]) {
           if (adForm.price.value < TypeHousingMap[housingTypes[i]].MIN || adForm.price.value > TypeHousingMap[housingTypes[i]].MAX) {
             valid = false;
-            window.error.changeInputStyle(adForm.price);
-            window.error.renderError(adForm.price, 'Цена не может быть ниже указанного значения или выше 1000000');
+            changeInputStyle(adForm.price);
+            renderError(adForm.price, 'Цена не может быть ниже указанного значения или выше 1000000');
             return;
           } else {
             valid = true;
@@ -193,7 +284,7 @@
   }
 
   window.form = {
-    startForm: addEventForm,
+    startWork: addEventForm,
     resetForm: removeEventForm
   };
 })();

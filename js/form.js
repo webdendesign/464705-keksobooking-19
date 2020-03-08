@@ -139,17 +139,17 @@
   function changePage() {
     adForm.reset();
     window.map.clearMap();
-    window.form.resetForm();
+    removeEventForm();
     window.filter.disableFilterForm();
     mapPinMain.style.left = Coordinate.LEFT + 'px';
     mapPinMain.style.top = Coordinate.TOP + 'px';
     getMainPinStartCoordinates();
     window.movement.init(function () {
       var pinBoxElement = document.querySelector('.map__pins');
-      window.form.startWork();
+      addEventForm();
       window.filter.enableFilterForm();
       var pins = window.data.get().slice(Amount.BEGIN, Amount.END);
-      window.map.renderElements(pins, pinBoxElement, window.pin.createPin);
+      window.map.renderElements(pins, pinBoxElement, window.pin.createObjectIcon);
     });
   }
 

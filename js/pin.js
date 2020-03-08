@@ -24,7 +24,7 @@
     }
   }
 
-  function createPin(data) {
+  function createObjectIcon(data) {
     if (!data.offer) {
       return false;
     }
@@ -125,7 +125,7 @@
   }
 
   window.pin = {
-    createPin: createPin,
+    createObjectIcon: createObjectIcon,
     closeCardCurrent: closeCardCurrent
   };
 })();

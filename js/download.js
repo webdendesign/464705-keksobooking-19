@@ -13,7 +13,7 @@
       var onLoad = function (data) {
         window.data.set(data);
         var pins = window.data.get().slice(Amount.BEGIN, Amount.END);
-        window.map.renderElements(pins, mapPins, window.pin.createPin);
+        window.map.renderElements(pins, mapPins, window.pin.createObjectIcon);
       };
 
       var onError = function (errorMessage) {

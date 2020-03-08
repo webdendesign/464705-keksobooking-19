@@ -170,7 +170,7 @@
     }).slice(BEGIN, END);
 
     window.map.clearMap();
-    debounce(window.map.renderElements)(filteredPins, pinBoxElement, window.pin.createPin);
+    debounce(window.map.renderElements)(filteredPins, pinBoxElement, window.pin.createObjectIcon);
   }
 
   function addEventFilterForm() {

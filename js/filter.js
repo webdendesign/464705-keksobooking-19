@@ -68,7 +68,6 @@
     return FilterCriteria.housingFeature;
 
   }
-
   function housingTypeFilter(adObject) {
     var result = true;
     if (FilterCriteria.housingType !== 'any') {
@@ -173,13 +172,13 @@
     debounce(window.map.renderElements)(filteredPins, pinBoxElement, window.pin.createObjectIcon);
   }
 
-  function addEventFilterForm() {
+  function addEventForm() {
     map.classList.remove('map--faded');
     changeConditionFilterForm();
     mapFilter.addEventListener('change', onChangeFilter);
   }
 
-  function removeEventFilterForm() {
+  function removeEventForm() {
     mapFilter.reset();
     map.classList.add('map--faded');
     changeConditionFilterForm();
@@ -187,7 +186,7 @@
   }
 
   window.filter = {
-    enableFilterForm: addEventFilterForm,
-    disableFilterForm: removeEventFilterForm
+    enableForm: addEventForm,
+    disableForm: removeEventForm
   };
 })();

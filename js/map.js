@@ -18,7 +18,7 @@
     }
   }
 
-  function clearMap() {
+  function clearElements() {
     window.pin.closeCardCurrent();
     mapElems.forEach(function (item) {
       item.remove();
@@ -28,6 +28,6 @@
 
   window.map = {
     renderElements: renderElements,
-    clearMap: clearMap
+    clearElements: clearElements
   };
 })();

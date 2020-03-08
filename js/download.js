@@ -8,7 +8,7 @@
       };
       var mapPins = document.querySelector('.map__pins');
       window.form.startWork();
-      window.filter.enableFilterForm();
+      window.filter.enableForm();
 
       var onLoad = function (data) {
         window.data.set(data);

@@ -1,23 +1,5 @@
 'use strict';
 (function () {
-
-  var main = document.querySelector('main');
-  var mapPinMain = main.querySelector('.map__pin--main');
-  var adForm = main.querySelector('.ad-form');
-  var timeIn = adForm.querySelector('#timein');
-  var timeOut = adForm.querySelector('#timeout');
-  var roomNumber = adForm.querySelector('#room_number');
-  var typeHousing = adForm.querySelector('#type');
-  var typeHousingElement = adForm.querySelector('#type');
-  var guestNumber = adForm.querySelector('#capacity');
-  var elementsInput = Array.from(adForm.elements);
-  var fileChooser = adForm.querySelector('.ad-form__field input[type=file]');
-  var show = adForm.querySelector('.ad-form-header__preview img');
-  var photoContainer = adForm.querySelector('.ad-form__photo-container');
-  var fileChooserHouse = photoContainer.querySelector('.ad-form__upload input[type=file]');
-  var previewHouse = photoContainer.querySelector('.ad-form__photo');
-
-
   var TitleLength = {
     LENGTH_MIN: 30,
     LENGTH_MAX: 100
@@ -27,8 +9,6 @@
     BEGIN: 0,
     END: 5
   };
-
-  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
   var TypeHousingMap = {
     'bungalo': {
@@ -60,6 +40,29 @@
     '3': ['3', '2', '1'],
     '100': ['0'],
   };
+
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
+  var main = document.querySelector('main');
+  var mapPinMain = main.querySelector('.map__pin--main');
+  var adForm = main.querySelector('.ad-form');
+  var timeIn = adForm.querySelector('#timein');
+  var timeOut = adForm.querySelector('#timeout');
+  var roomNumber = adForm.querySelector('#room_number');
+  var typeHousing = adForm.querySelector('#type');
+  var guestNumber = adForm.querySelector('#capacity');
+  var elementsInput = Array.from(adForm.elements);
+  var fileChooser = adForm.querySelector('.ad-form__field input[type=file]');
+  var show = adForm.querySelector('.ad-form-header__preview img');
+  var photoContainer = adForm.querySelector('.ad-form__photo-container');
+  var fileChooserHouse = photoContainer.querySelector('.ad-form__upload input[type=file]');
+  var previewHouse = photoContainer.querySelector('.ad-form__photo');
+  var successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
+  var errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
+
+  var errorDiv = null;
+  var successMessage = null;
+  var errorMessage = null;
 
   function changeForm() {
     elementsInput.forEach(function (element) {
@@ -138,16 +141,16 @@
 
   function changePage() {
     adForm.reset();
-    window.map.clearMap();
+    window.map.clearElements();
     removeEventForm();
-    window.filter.disableFilterForm();
+    window.filter.disableForm();
     mapPinMain.style.left = Coordinate.LEFT + 'px';
     mapPinMain.style.top = Coordinate.TOP + 'px';
     getMainPinStartCoordinates();
     window.movement.init(function () {
       var pinBoxElement = document.querySelector('.map__pins');
       addEventForm();
-      window.filter.enableFilterForm();
+      window.filter.enableForm();
       var pins = window.data.get().slice(Amount.BEGIN, Amount.END);
       window.map.renderElements(pins, pinBoxElement, window.pin.createObjectIcon);
     });
@@ -199,8 +202,6 @@
     }
   });
 
-  var errorDiv = null;
-
   function changeInputStyle(inputName) {
     inputName.value = '';
     inputName.focus();
@@ -234,12 +235,6 @@
     evt.target.removeEventListener('focus', onErrorRemove);
     evt.target.removeEventListener('blur', onFocusRemove);
   }
-
-  var successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
-  var errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
-
-  var successMessage = null;
-  var errorMessage = null;
 
   function renderSuccessMessage() {
     successMessage = successMessageTemplate.cloneNode(true);
@@ -323,7 +318,7 @@
 
     if (adForm.price) {
       for (var i = 0; i < housingTypes.length; i++) {
-        if (typeHousingElement.value === housingTypes[i]) {
+        if (typeHousing.value === housingTypes[i]) {
           if (adForm.price.value < TypeHousingMap[housingTypes[i]].MIN || adForm.price.value > TypeHousingMap[housingTypes[i]].MAX) {
             valid = false;
             changeInputStyle(adForm.price);
@@ -343,6 +338,5 @@
 
   window.form = {
     startWork: addEventForm,
-    resetForm: removeEventForm
   };
 })();

@@ -1,5 +1,7 @@
 'use strict';
 (function () {
+  var data = null;
+
   function onBeginApp() {
     window.movement.init(function () {
       var Amount = {
@@ -10,8 +12,8 @@
       window.form.startWork();
       window.filter.enableForm();
 
-      var onLoad = function (data) {
-        window.data.set(data);
+      var onLoad = function (dataServer) {
+        window.data.set(dataServer);
         var pins = window.data.get().slice(Amount.BEGIN, Amount.END);
         window.map.renderElements(pins, mapPins, window.pin.createObjectIcon);
       };
@@ -32,4 +34,16 @@
   }
 
   document.addEventListener('DOMContentLoaded', onBeginApp);
+
+  function getData() {
+    return data;
+  }
+  function setData(newData) {
+    data = newData;
+  }
+
+  window.data = {
+    get: getData,
+    set: setData
+  };
 })();

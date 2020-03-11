@@ -168,7 +168,7 @@
       return housingTypeFilter(pin) && housingPriceFilter(pin) && housingRoomFilter(pin) && housingGuestFilter(pin) && housingFeatureFilter(pin);
     }).slice(BEGIN, END);
 
-    window.map.clearMap();
+    window.map.clearElements();
     debounce(window.map.renderElements)(filteredPins, pinBoxElement, window.pin.createObjectIcon);
   }
 

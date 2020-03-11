@@ -1,10 +1,5 @@
 'use strict';
 (function () {
-  var TitleLength = {
-    LENGTH_MIN: 30,
-    LENGTH_MAX: 100
-  };
-
   var Amount = {
     BEGIN: 0,
     END: 5
@@ -144,6 +139,8 @@
     window.map.clearElements();
     removeEventForm();
     window.filter.disableForm();
+    show.src = 'img/muffin-grey.svg';
+    photoContainer.removeChild(previewHouse[0]);
     mapPinMain.style.left = Coordinate.LEFT + 'px';
     mapPinMain.style.top = Coordinate.TOP + 'px';
     getMainPinStartCoordinates();
@@ -303,18 +300,6 @@
 
   function onSubmitForm(evt) {
     evt.preventDefault();
-
-    if (adForm.title) {
-      var strLength = adForm.title.value.length;
-      if (strLength < TitleLength.LENGTH_MIN || strLength > TitleLength.LENGTH_MAX) {
-        valid = false;
-        changeInputStyle(adForm.title);
-        renderError(adForm.title, 'Количество символов в заголовке объявления не должно быть меньше 30 и больше 100');
-        return;
-      } else {
-        valid = true;
-      }
-    }
 
     if (adForm.price) {
       for (var i = 0; i < housingTypes.length; i++) {

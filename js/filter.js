@@ -20,6 +20,13 @@
     }
   };
 
+  var SelectValue = {
+    ANY: 'any',
+    TYPE: 'type',
+    ROOMS: 'rooms',
+    GUESTS: 'guests'
+  };
+
   var mapFilter = document.querySelector('.map__filters');
   var filterElement = mapFilter.querySelectorAll('select, input');
   var housingType = mapFilter.querySelector('#housing-type');
@@ -31,11 +38,11 @@
   var filteredData = [];
 
   function filtrationItem(it, item, key) {
-    return it.value === 'any' ? true : it.value === item[key].toString();
+    return it.value === SelectValue.ANY ? true : it.value === item[key].toString();
   }
 
   function filtrationByType(item) {
-    return filtrationItem(housingType, item.offer, 'type');
+    return filtrationItem(housingType, item.offer, SelectValue.TYPE);
   }
 
   function filtrationByPrice(item) {
@@ -44,11 +51,11 @@
   }
 
   function filtrationByRooms(item) {
-    return filtrationItem(housingRoom, item.offer, 'rooms');
+    return filtrationItem(housingRoom, item.offer, SelectValue.ROOMS);
   }
 
   function filtrationByGuests(item) {
-    return filtrationItem(housingGuest, item.offer, 'guests');
+    return filtrationItem(housingGuest, item.offer, SelectValue.GUESTS);
   }
 
   function filtrationByFeatures(item) {
@@ -76,7 +83,7 @@
 
   function resetFilter() {
     filterElement.forEach(function (it) {
-      it.value = 'any';
+      it.value = SelectValue.ANY;
     });
     var featuresItems = housingFeatures.querySelectorAll('input');
     featuresItems.forEach(function (feature) {

@@ -1,28 +1,40 @@
 'use strict';
 (function () {
-  var ESC_KEYCODE = 27;
-  var ENTER_KEYCODE = 13;
+  var PressKey = {
+    ESC_KEY: 27,
+    ENTER_KEY: 13
+  };
+  var DEBOUNCE_INTERVAL = 500;
 
-  function isEscPress(cb) {
-    return function (evt) {
-      evt.preventDefault();
-      if (evt.keyCode === ESC_KEYCODE) {
-        cb();
-      }
-    };
+  function onEnterPress(evt, cb) {
+    if (evt.keyCode === PressKey.ENTER_KEY) {
+      cb();
+    }
   }
 
-  function isEnterPress(cb) {
-    return function (evt) {
-      evt.preventDefault();
-      if (evt.keyCode === ENTER_KEYCODE) {
-        cb();
+  function onEscPress(evt, cb) {
+    if (evt.keyCode === PressKey.ESC_KEY) {
+      cb();
+    }
+  }
+
+  function debounce(cb) {
+    var lastTimeout = null;
+    return function () {
+      var args = arguments;
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
       }
+      lastTimeout = window.setTimeout(function () {
+        cb.apply(null, args);
+      }, DEBOUNCE_INTERVAL);
     };
   }
 
   window.util = {
-    isEscPress: isEscPress,
-    isEnterPress: isEnterPress
+    onEnterPress: onEnterPress,
+    onEscPress: onEscPress,
+    debounce: debounce
   };
 })();
+

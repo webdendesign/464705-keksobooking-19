@@ -117,7 +117,7 @@
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="address">Адрес</label>
-          <input id="address" name="address" type="text" placeholder="602, 407">
+          <input id="address" name="address" type="text">
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="type">Тип жилья</label>
@@ -130,7 +130,7 @@
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="price">Цена за ночь, руб.</label>
-          <input id="price" name="price" type="number" placeholder="1000" required max="1000000">
+          <input id="price" name="price" type="number" placeholder="1000" required min="1000" max="1000000">
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--time">
           <label class="ad-form__label" for="timein">Время заезда и выезда</label>
@@ -157,9 +157,9 @@
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="capacity">Количество мест</label>
           <select id="capacity" name="capacity">
-            <option value="3">для 3 гостей</option>
+            <option value="3" selected>для 3 гостей</option>
             <option value="2">для 2 гостей</option>
-            <option value="1" selected>для 1 гостя</option>
+            <option value="1">для 1 гостя</option>
             <option value="0">не для гостей</option>
           </select>
         </fieldset>
@@ -197,7 +197,7 @@
                 accept="image/jpeg, image/png">
               <label for="images" class="ad-form__drop-zone">Загрузить<br>фото...</label>
             </div>
-            <div class="ad-form__photo"></div>
+            <div class="ad-form__photo ad-form__photo--empty"></div>
           </div>
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--submit">
@@ -274,14 +274,12 @@
     </div>
   </template>
 
+  <script src="js/backend.js"></script>
+  <script src="js/photo.js"></script>
   <script src="js/util.js"></script>
   <script src="js/map.js"></script>
-  <script src="js/pin.js"></script>
-  <script src="js/backend.js"></script>
-  <script src="js/movement.js"></script>
-  <script src="js/filter.js"></script>
-  <script src="js/download.js"></script>
   <script src="js/form.js"></script>
+  <script src="js/filter.js"></script>
 
 </body>
 

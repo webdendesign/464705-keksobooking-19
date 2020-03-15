@@ -1,250 +1,121 @@
 'use strict';
 (function () {
-  var Amount = {
-    BEGIN: 0,
-    END: 5
+  var RoomForGuests = {
+    1: [1],
+    2: [1, 2],
+    3: [1, 2, 3],
+    100: [0]
   };
 
-  var TypeHousingMap = {
-    'bungalo': {
-      MIN: 0,
-      MAX: 1000000
-    },
-    'flat': {
-      MIN: 1000,
-      MAX: 1000000
-    },
-    'house': {
-      MIN: 5000,
-      MAX: 1000000
-    },
-    'palace': {
-      MIN: 10000,
-      MAX: 1000000
-    }
+  var BuildingMinPrice = {
+    BUNGALO: 0,
+    FLAT: 1000,
+    HOUSE: 5000,
+    PALACE: 10000
   };
-
-  var Coordinate = {
-    LEFT: 570,
-    TOP: 375
-  };
-
-  var RoomForGuestsMap = {
-    '1': ['1'],
-    '2': ['2', '1'],
-    '3': ['3', '2', '1'],
-    '100': ['0'],
-  };
-
-  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
   var main = document.querySelector('main');
-  var mapPinMain = main.querySelector('.map__pin--main');
-  var adForm = main.querySelector('.ad-form');
+  var adForm = document.querySelector('.ad-form');
+  var adFormElement = adForm.querySelectorAll('.ad-form__element');
+  var adFormHeader = adForm.querySelector('.ad-form-header');
+  var titleInput = adForm.querySelector('#title');
+  var address = adForm.querySelector('#address');
+  var typeHousing = adForm.querySelector('#type');
+  var price = adForm.querySelector('#price');
   var timeIn = adForm.querySelector('#timein');
   var timeOut = adForm.querySelector('#timeout');
   var roomNumber = adForm.querySelector('#room_number');
-  var typeHousing = adForm.querySelector('#type');
   var guestNumber = adForm.querySelector('#capacity');
-  var elementsInput = Array.from(adForm.elements);
-  var fileChooser = adForm.querySelector('.ad-form__field input[type=file]');
-  var show = adForm.querySelector('.ad-form-header__preview img');
-  var photoContainer = adForm.querySelector('.ad-form__photo-container');
-  var fileChooserHouse = photoContainer.querySelector('.ad-form__upload input[type=file]');
-  var previewHouse = photoContainer.querySelector('.ad-form__photo');
+  var submit = adForm.querySelector('.ad-form__submit');
+  var reset = adForm.querySelector('.ad-form__reset');
   var successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
   var errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
-
-  var errorDiv = null;
+  var invalidElements = [];
   var successMessage = null;
   var errorMessage = null;
 
-  function changeForm() {
-    elementsInput.forEach(function (element) {
-      element.disabled = adForm.classList.contains('ad-form--disabled') ? true : false;
-    });
+  function getStartCoordinat(coordinat) {
+    address.value = coordinat.x + ', ' + coordinat.y;
   }
 
-  changeForm();
-  getMainPinStartCoordinates();
-
-  function getMainPinStartCoordinates() {
-    var mainPinStartCoords = {
-      x: parseInt(mapPinMain.style.left, 10) + mapPinMain.getBoundingClientRect().width / 2,
-      y: parseInt(mapPinMain.style.top, 10) + mapPinMain.getBoundingClientRect().height / 2
-    };
-
-    adForm.address.value = Math.floor(mainPinStartCoords.x) + ', ' + Math.floor(mainPinStartCoords.y);
-  }
-
-  function onPinMoveEventAddressField(evt) {
-    adForm.address.value = Math.round(evt.coords.x) + ', ' + Math.round(evt.coords.y);
-  }
-
-  document.addEventListener('pinMoveEvent', onPinMoveEventAddressField);
-
-  function addEventForm() {
-    adForm.classList.remove('ad-form--disabled');
-    changeForm();
-    roomNumber.addEventListener('change', onChangeRooms);
-    typeHousing.addEventListener('change', onChangeType);
-    timeIn.addEventListener('change', onChangeTimeIn);
-    timeOut.addEventListener('change', onChangeTimeOut);
-    adForm.addEventListener('submit', onSubmitForm);
-    adForm.addEventListener('reset', onResetForm);
-    document.addEventListener('pinMoveEvent', onPinMoveEventAddressField);
-  }
-
-  function removeEventForm() {
-    adForm.classList.add('ad-form--disabled');
-    changeForm();
-    roomNumber.removeEventListener('change', onChangeRooms);
-    typeHousing.removeEventListener('change', onChangeType);
-    timeIn.removeEventListener('change', onChangeTimeIn);
-    timeOut.removeEventListener('change', onChangeTimeOut);
-    adForm.removeEventListener('submit', onSubmitForm);
-    adForm.removeEventListener('reset', onResetForm);
-    document.addEventListener('pinMoveEvent', onPinMoveEventAddressField);
-  }
-
-  function changeRoomNumberValue(value) {
-    Array.from(guestNumber.options).forEach(function (option) {
-      option.disabled = !RoomForGuestsMap[value].includes(option.value);
-    });
-    guestNumber.value = value > 3 ? '0' : value;
-  }
-
-  changeRoomNumberValue(roomNumber.value);
-
-  function onChangeRooms(evt) {
-    changeRoomNumberValue(evt.currentTarget.value);
-  }
-
-  function onChangeType(evt) {
-    adForm.price.placeholder = TypeHousingMap[evt.currentTarget.value].MIN;
+  function onChangeTypeHousing(evt) {
+    var minPrice = BuildingMinPrice[evt.target.value];
+    price.min = minPrice;
   }
 
   function onChangeTimeIn(evt) {
-    var timeInCurrentValue = evt.currentTarget.value;
-    timeOut.value = timeInCurrentValue;
+    timeOut.value = evt.target.value;
   }
 
   function onChangeTimeOut(evt) {
-    var timeOutCurrentValue = evt.currentTarget.value;
-    timeIn.value = timeOutCurrentValue;
+    timeIn.value = evt.target.value;
   }
 
-  function changePage() {
-    adForm.reset();
-    window.map.clearElements();
-    removeEventForm();
-    window.filter.disableForm();
-    show.src = 'img/muffin-grey.svg';
-    photoContainer.removeChild(previewHouse[0]);
-    mapPinMain.style.left = Coordinate.LEFT + 'px';
-    mapPinMain.style.top = Coordinate.TOP + 'px';
-    getMainPinStartCoordinates();
-    window.movement.init(function () {
-      var pinBoxElement = document.querySelector('.map__pins');
-      addEventForm();
-      window.filter.enableForm();
-      var pins = window.data.get().slice(Amount.BEGIN, Amount.END);
-      window.map.renderElements(pins, pinBoxElement, window.pin.createObjectIcon);
+  function disableСapacityOptions(inputValue) {
+    var capacityOptions = guestNumber.querySelectorAll('option');
+    capacityOptions.forEach(function (it) {
+      it.disabled = true;
+    });
+    RoomForGuests[inputValue].forEach(function (it) {
+      guestNumber.querySelector('option' + '[value="' + it + '"]').disabled = false;
+      guestNumber.value = it;
     });
   }
 
-  function onResetForm() {
-    changePage();
+  function highlightInvalidElement(item) {
+    invalidElements.push(item);
+    item.classList.add('invalid-element');
   }
 
-  fileChooser.addEventListener('change', function () {
-    var file = fileChooser.files[0];
-    var fileName = file.name.toLowerCase();
-    var matches = FILE_TYPES.some(function (it) {
-      return fileName.endsWith(it);
-    });
-    if (matches) {
-      var reader = new FileReader();
-      reader.addEventListener('load', function () {
-        show.src = reader.result;
-      });
-      reader.readAsDataURL(file);
+  function unhighlightInvalidElement(item) {
+    invalidElements.splice(invalidElements.indexOf(item), 1);
+    item.classList.remove('invalid-element');
+  }
+
+  function onFormInvalid(evt) {
+    highlightInvalidElement(evt.target);
+  }
+
+  function onCheckValidity(evt) {
+    if (!evt.target.checkValidity()) {
+      highlightInvalidElement(evt.target);
+    } else if (invalidElements.indexOf(evt.target) !== 1) {
+      unhighlightInvalidElement(evt.target);
     }
-  });
-
-  function createNewPreviewHouse(result) {
-    var imgContainer = previewHouse.cloneNode(true);
-    var newElement = document.createElement('img');
-    newElement.style.width = '70px';
-    newElement.style.height = '70px';
-    newElement.classList.add('ad-form__photo-img');
-    newElement.src = result;
-    newElement.alt = 'Фотография моего жилья';
-    imgContainer.appendChild(newElement);
-    return imgContainer;
   }
 
-  fileChooserHouse.addEventListener('change', function () {
-    var file = fileChooserHouse.files[0];
-    var fileName = file.name.toLowerCase();
-    var matches = FILE_TYPES.some(function (it) {
-      return fileName.endsWith(it);
-    });
-    if (matches) {
-      var readerHouse = new FileReader();
-      readerHouse.addEventListener('load', function () {
-        photoContainer.insertBefore(createNewPreviewHouse(readerHouse.result), previewHouse);
-      });
-      readerHouse.readAsDataURL(file);
-    }
-  });
-
-  function changeInputStyle(inputName) {
-    inputName.value = '';
-    inputName.focus();
-    inputName.style.outline = 'none';
-    inputName.style.border = '2px solid red';
+  function checkNumber() {
+    var roomGuests = RoomForGuests[roomNumber.value];
+    var message = roomGuests.indexOf(+guestNumber.value) === -1 ? 'Количество гостей не влезут в выбранную комнату' : '';
+    guestNumber.setCustomValidity(message);
   }
 
-  function renderError(element, errorText) {
-    errorDiv = document.createElement('div');
-    errorDiv.className = 'errorblock';
-    var errorParagraph = document.createElement('p');
-    errorParagraph.className = 'errorblock__paragraph';
-    errorParagraph.textContent = errorText;
-
-    errorDiv.appendChild(errorParagraph);
-    element.insertAdjacentElement('afterEnd', errorDiv);
-
-    element.addEventListener('focus', onErrorRemove);
-
-    element.addEventListener('blur', onFocusRemove);
+  function onChangeRoomNumber(evt) {
+    evt.target.setCustomValidity('');
+    disableСapacityOptions(roomNumber.value);
   }
 
-  function onErrorRemove(evt) {
-    evt.preventDefault();
-    errorDiv.remove();
+  function onCapacitySelectChange(evt) {
+    evt.target.setCustomValidity('');
   }
 
-  function onFocusRemove(evt) {
-    onErrorRemove(evt);
-    evt.target.style.border = 'none';
-    evt.target.removeEventListener('focus', onErrorRemove);
-    evt.target.removeEventListener('blur', onFocusRemove);
+  function onSubmitClick() {
+    checkNumber();
   }
 
-  function renderSuccessMessage() {
+  function onSuccessEscPress(evt) {
+    window.util.onEscPress(evt, deleteSuccessMessage);
+  }
+
+  function onSuccessDocumentClick() {
+    deleteSuccessMessage();
+  }
+
+  function showSuccess() {
     successMessage = successMessageTemplate.cloneNode(true);
     addMessage(successMessage);
     document.addEventListener('keydown', onSuccessEscPress);
     document.addEventListener('click', onSuccessDocumentClick);
-  }
-
-  var onSuccessEscPress = window.util.isEscPress(deleteSuccessMessage);
-
-  function onSuccessDocumentClick(evt) {
-    evt.preventDefault();
-    deleteSuccessMessage();
   }
 
   function deleteSuccessMessage() {
@@ -264,7 +135,10 @@
     document.addEventListener('keydown', onErrorEscPress);
     document.addEventListener('click', onErrorDocumentClick);
   }
-  var onErrorEscPress = window.util.isEscPress(deleteErrorMessage);
+
+  function onErrorEscPress(evt) {
+    window.util.onEscPress(evt, deleteErrorMessage);
+  }
 
   function deleteErrorMessage() {
     document.removeEventListener('keydown', onErrorEscPress);
@@ -285,43 +159,86 @@
     main.removeChild(blockMessage);
   }
 
-  function onLoad() {
-    onResetForm();
-    renderSuccessMessage();
+  function onSubmitSuccess() {
+    showSuccess();
+    deactivateForm();
+    window.map.deactivate();
+    window.filter.deactivate();
   }
 
-  function onError() {
-    onResetForm();
+  function onSubmitError() {
     renderErrorMessage();
   }
 
-  var housingTypes = Object.keys(TypeHousingMap);
-  var valid = true;
-
-  function onSubmitForm(evt) {
+  function onAdFormSubmit(evt) {
     evt.preventDefault();
-
-    if (adForm.price) {
-      for (var i = 0; i < housingTypes.length; i++) {
-        if (typeHousing.value === housingTypes[i]) {
-          if (adForm.price.value < TypeHousingMap[housingTypes[i]].MIN || adForm.price.value > TypeHousingMap[housingTypes[i]].MAX) {
-            valid = false;
-            changeInputStyle(adForm.price);
-            renderError(adForm.price, 'Цена не может быть ниже указанного значения или выше 1000000');
-            return;
-          } else {
-            valid = true;
-          }
-        }
-      }
-    }
-
-    if (valid) {
-      window.backend.upload(new FormData(adForm), onLoad, onError);
-    }
+    var formData = new FormData(adForm);
+    window.backend.upload(formData, onSubmitSuccess, onSubmitError);
   }
 
+  function onResetClick(evt) {
+    evt.preventDefault();
+    deactivateForm();
+    window.map.deactivate();
+    window.filter.deactivate();
+    window.photo.remove();
+  }
+
+  function addEventForm() {
+    adForm.addEventListener('invalid', onFormInvalid, true);
+    price.addEventListener('change', onCheckValidity);
+    titleInput.addEventListener('change', onCheckValidity);
+    typeHousing.addEventListener('change', onChangeTypeHousing);
+    timeIn.addEventListener('change', onChangeTimeIn);
+    timeOut.addEventListener('change', onChangeTimeOut);
+    roomNumber.addEventListener('change', onChangeRoomNumber);
+    guestNumber.addEventListener('change', onCapacitySelectChange);
+    submit.addEventListener('click', onSubmitClick);
+    adForm.addEventListener('submit', onAdFormSubmit);
+    reset.addEventListener('click', onResetClick);
+  }
+
+  function removeEventForm() {
+    adForm.removeEventListener('invalid', onFormInvalid, true);
+    price.removeEventListener('change', onCheckValidity);
+    titleInput.removeEventListener('change', onCheckValidity);
+    typeHousing.removeEventListener('change', onChangeTypeHousing);
+    timeIn.removeEventListener('change', onChangeTimeIn);
+    timeOut.removeEventListener('change', onChangeTimeOut);
+    roomNumber.removeEventListener('change', onChangeRoomNumber);
+    guestNumber.removeEventListener('change', onCapacitySelectChange);
+    submit.removeEventListener('click', onSubmitClick);
+    adForm.removeEventListener('submit', onAdFormSubmit);
+    reset.removeEventListener('click', onResetClick);
+  }
+
+  function enableForm() {
+    adForm.classList.remove('ad-form--disabled');
+    adFormElement.forEach(function (it) {
+      it.disabled = false;
+    });
+    adFormHeader.disabled = false;
+    window.photo.enable();
+    addEventForm();
+  }
+
+  function deactivateForm() {
+    adForm.reset();
+    adFormElement.forEach(function (it) {
+      it.disabled = true;
+    });
+    adFormHeader.disabled = true;
+    adForm.classList.add('ad-form--disabled');
+    window.photo.deactivate();
+    window.photo.remove();
+    getStartCoordinat(window.map.getMainPin());
+    removeEventForm();
+  }
+
+  deactivateForm();
+
   window.form = {
-    startWork: addEventForm,
+    getCoordinat: getStartCoordinat,
+    startWork: enableForm
   };
 })();
